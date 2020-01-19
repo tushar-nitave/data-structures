@@ -1,3 +1,5 @@
+import sys
+
 class Tree:
     def __init__(self, data):
         self.data = data
@@ -85,6 +87,36 @@ class Tree:
                 return self.in_tree(root.left, value)
         return False
 
+    def check_height(self, root):
+        if root == None:
+            return -1
+
+        print("node: ", root.data)
+        
+        left_height = self.check_height(root.left)
+        if left_height == sys.maxsize:
+            return sys.maxsize
+       
+        print(left_height, root.data)
+       
+        right_height = self.check_height(root.right)
+        if right_height == sys.maxsize:
+            return sys.maxsize
+       
+        print(right_height, root.data)
+
+        height_diff = abs(left_height-right_height)
+        print("Height: ", height_diff)
+
+        if height_diff > 1:
+            return sys.maxsize
+        else:
+            return max(left_height, right_height)+1
+
+
+    def isBalanced(self, root):
+        return self.check_height(root) != sys.maxsize
+
     def inorder(self, root):
         if root:
             self.inorder(root.left)
@@ -96,20 +128,10 @@ if __name__ == "__main__":
     root = Tree(5)
 
     root.insert(root, Tree(4))
-    root.insert(root, Tree(6))
-    root.insert(root, Tree(88))
-    root.insert(root, Tree(7))
     root.insert(root, Tree(3))
+    # root.insert(root, Tree(2))
+    root.insert(root, Tree(7))
 
     root.inorder(root)
-
-    print("\nCount: ", root.get_count(root))
-
-    root = root.delete_node(root, 4)
-
-    root.inorder(root)
-    print("\nCount: ", root.get_count(root))
-
-    print("Min: ", root._min(root))
-    print("Max: ", root._max(root))
-    print(root.in_tree(root, 100))
+    print()
+    print(root.isBalanced(root))
