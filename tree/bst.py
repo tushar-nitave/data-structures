@@ -113,6 +113,19 @@ class Tree:
         else:
             return max(left_height, right_height)+1
 
+    def validate(self, root):
+        if root == None:
+            return True
+        
+        if root.left != None:
+            if root.left.data > root.data:
+                return False
+        
+        if root.right != None:
+            if root.right.data < root.data:
+                return False
+
+        return self.validate(root.left) and self.validate(root.right)
 
     def isBalanced(self, root):
         return self.check_height(root) != sys.maxsize
@@ -126,12 +139,12 @@ class Tree:
 
 if __name__ == "__main__":
     root = Tree(5)
-
     root.insert(root, Tree(4))
     root.insert(root, Tree(3))
-    # root.insert(root, Tree(2))
+    root.insert(root, Tree(2))
     root.insert(root, Tree(7))
 
     root.inorder(root)
     print()
     print(root.isBalanced(root))
+    print(root.validate(root))
